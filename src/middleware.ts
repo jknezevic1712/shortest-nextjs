@@ -25,6 +25,6 @@ export const config = {
 		 * Example:
 		 * '/((?!api|_next/static|_next/image|favicon.ico).*)',
 		 */
-		'/((?!authentication.*)',
+		'/((?!api|_next/static|_next/image|favicon.ico|authentication).*)',
 	],
 };
