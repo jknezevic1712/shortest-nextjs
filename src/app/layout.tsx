@@ -18,8 +18,11 @@ function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
-			<body className={inter.className + ' dark'}>
+		<html
+			lang="en"
+			className="dark"
+		>
+			<body className={inter.className + ' p-2'}>
 				{children}
 				<Toaster />
 			</body>
