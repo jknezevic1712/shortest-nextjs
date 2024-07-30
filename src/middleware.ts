@@ -2,12 +2,13 @@
 import { NextResponse } from 'next/server';
 // types
 import type { NextRequest } from 'next/server';
+import { Routes } from './app/_utils/enums/routes';
 
 export function middleware(request: NextRequest) {
 	const user = true;
 
 	if (!user) {
-		return NextResponse.redirect(new URL('/authentication', request.url));
+		return NextResponse.redirect(new URL(Routes.Authentication, request.url));
 	}
 
 	return NextResponse.next();
