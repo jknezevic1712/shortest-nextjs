@@ -73,9 +73,9 @@ export function DataTable<TData, TValue>({
 								<TableCell key={row.id}>
 									<Button
 										type="button"
-										variant="link"
+										variant="ghost"
 									>
-										<Pen />
+										<Pen className="text-primary" />
 									</Button>
 								</TableCell>
 							</TableRow>
