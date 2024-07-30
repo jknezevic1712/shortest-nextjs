@@ -7,9 +7,9 @@ export default function DashboardLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<div>
+		<>
 			<SideMenu />
 			{children}
-		</div>
+		</>
 	);
 }
