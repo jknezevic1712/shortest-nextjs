@@ -13,7 +13,7 @@ import { AlignJustify } from 'lucide-react';
 import Link from 'next/link';
 import { VisuallyHidden } from '../../atoms/visuallyHidden/VisuallyHidden';
 // utils
-import { isActiveRoute } from '@/app/_lib/helpers/helpers';
+import { isActiveRoute } from '@/app/_lib/utils/routing/helpers';
 import { usePathname } from 'next/navigation';
 import { Routes } from '@/app/_lib/enums/routes';
 
