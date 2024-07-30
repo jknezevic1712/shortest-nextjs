@@ -10,7 +10,7 @@ import {
 	ToastViewport,
 } from '@radix-ui/react-toast';
 // utils
-import { useToast } from '@app/_utils/hooks/useToast';
+import { useToast } from '@app/_lib/hooks/useToast';
 
 export function Toaster() {
 	const { toasts } = useToast();

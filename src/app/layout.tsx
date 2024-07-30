@@ -1,7 +1,7 @@
 // utils
 import { Inter } from 'next/font/google';
 import '@app/_lib/styles/globals.css';
-import { Toaster } from '@/app/_utils/providers/Toaster';
+import { Toaster } from '@/app/_lib/providers/Toaster';
 // types
 import type { Metadata } from 'next';
 

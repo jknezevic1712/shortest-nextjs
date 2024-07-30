@@ -4,7 +4,7 @@ import * as React from 'react';
 import * as LabelPrimitive from '@radix-ui/react-label';
 import { cva } from 'class-variance-authority';
 // utils
-import { cn } from '@/app/_lib/shadcn-ui/shadcn';
+import { cn } from '@/app/_lib/utils/shadcn-ui/shadcn';
 // types
 import type { VariantProps } from 'class-variance-authority';
 

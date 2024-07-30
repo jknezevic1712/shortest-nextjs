@@ -6,7 +6,7 @@ import * as ToastPrimitives from '@radix-ui/react-toast';
 import { X } from 'lucide-react';
 // utils
 import { cva } from 'class-variance-authority';
-import { cn } from '@/app/_lib/shadcn-ui/shadcn';
+import { cn } from '@/app/_lib/utils/shadcn-ui/shadcn';
 // type
 import type { VariantProps } from 'class-variance-authority';
 

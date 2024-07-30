@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server';
 // types
 import type { NextRequest } from 'next/server';
-import { Routes } from './app/_utils/enums/routes';
+import { Routes } from './app/_lib/enums/routes';
 
 export function middleware(request: NextRequest) {
 	const user = true;

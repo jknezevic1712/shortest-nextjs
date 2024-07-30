@@ -13,9 +13,9 @@ import { AlignJustify } from 'lucide-react';
 import Link from 'next/link';
 import { VisuallyHidden } from '../../atoms/visuallyHidden/VisuallyHidden';
 // utils
-import { isActiveRoute } from '@/app/_utils/helpers/helpers';
+import { isActiveRoute } from '@/app/_lib/helpers/helpers';
 import { usePathname } from 'next/navigation';
-import { Routes } from '@/app/_utils/enums/routes';
+import { Routes } from '@/app/_lib/enums/routes';
 
 export default function SideMenu() {
 	// TODO: Add logout action for Logout button

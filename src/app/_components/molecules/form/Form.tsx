@@ -14,7 +14,7 @@ import {
 	FormProvider,
 	useFormContext,
 } from 'react-hook-form';
-import { cn } from '@/app/_lib/shadcn-ui/shadcn';
+import { cn } from '@/app/_lib/utils/shadcn-ui/shadcn';
 
 const Form = FormProvider;
 
