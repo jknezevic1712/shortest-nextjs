@@ -33,7 +33,7 @@ export default function SideMenu() {
 
 			<SheetContent
 				side="left"
-				className="flex flex-col gap-4 pt-12 justify-between items-center"
+				className="flex flex-col gap-4 pt-16 justify-between items-center"
 				aria-describedby="nav-buttons"
 			>
 				<VisuallyHidden>
