@@ -9,7 +9,7 @@ import {
 
 export default function DashboardTemplate() {
 	return (
-		<main className="mx-auto flex w-full max-w-7xl min-h-screen flex-col items-center justify-start pt-4 gap-12">
+		<main className="mx-auto flex w-full max-w-7xl flex-col items-center justify-start pt-4 gap-12">
 			<div className="w-full flex justify-end items-center">
 				<Button
 					type="button"
