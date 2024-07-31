@@ -18,16 +18,20 @@ import {
 	getCoreRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
+// types
+import type { Link } from '@/app/_lib/types/links';
 
-interface DataTableProps<TData, TValue> {
+interface LinksDataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
+	handleManageLinkDialog: (isVisible?: boolean, data?: Link) => void;
 }
 
-export function DataTable<TData, TValue>({
+export function LinksDataTable<TData, TValue>({
 	columns,
 	data,
-}: DataTableProps<TData, TValue>) {
+	handleManageLinkDialog,
+}: LinksDataTableProps<TData, TValue>) {
 	const table = useReactTable({
 		data,
 		columns,
@@ -57,7 +61,7 @@ export function DataTable<TData, TValue>({
 				</TableHeader>
 				<TableBody>
 					{table.getRowModel().rows?.length ? (
-						table.getRowModel().rows.map((row) => (
+						table.getRowModel().rows.map((row, rowIdx) => (
 							<TableRow
 								key={row.id}
 								data-state={row.getIsSelected() && 'selected'}
@@ -74,6 +78,9 @@ export function DataTable<TData, TValue>({
 									<Button
 										type="button"
 										variant="ghost"
+										onClick={() =>
+											handleManageLinkDialog(true, data[rowIdx] as Link)
+										}
 									>
 										<Pen className="text-primary" />
 									</Button>

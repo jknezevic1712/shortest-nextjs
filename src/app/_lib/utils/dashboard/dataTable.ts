@@ -1,5 +1,5 @@
 // utils
-import { linkSchema } from '../../validationSchemas/link';
+import { LinkSchema } from '../../validationSchemas/link';
 import { z } from 'zod';
 // types
 import type { ColumnDef } from '@tanstack/react-table';
@@ -24,20 +24,20 @@ export const linkDataTableColumns: ColumnDef<Link>[] = [
 	},
 ];
 
-export const dummyLinks: z.infer<typeof linkSchema>[] = [
+export const dummyLinks: z.infer<typeof LinkSchema>[] = [
 	{
-		id: 1,
-		old: 'reallyloooooooooooooooooooooooooooooonglonglonglonglonglonglonglonglonglonglonglonglonglonglink@test.com',
+		id: '1',
+		old: 'reallyloooooooooooooooooooooooooooooonglonglonglonglonglonglonglonglonglonglonglonglonglonglink.com',
 		new: 'shortest.com/z20ssd',
 	},
 	{
-		id: 2,
-		old: 'reallyLongTestLink@test.com',
+		id: '2',
+		old: 'reallyLongTestLink.com',
 		new: 'shortest.com/yj2dol',
 	},
 	{
-		id: 3,
-		old: 'reallyLongTestLink@test.com',
+		id: '3',
+		old: 'reallyLongTestLink.com',
 		new: 'shortest.com/asdk4l',
 	},
 ];
