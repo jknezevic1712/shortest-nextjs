@@ -8,6 +8,7 @@ import {
 	SheetContent,
 	SheetHeader,
 	SheetTitle,
+	SheetDescription,
 } from '@app/_components/molecules/sheet/Sheet';
 import { AlignJustify } from 'lucide-react';
 import Link from 'next/link';
@@ -34,11 +35,13 @@ export default function SideMenu() {
 			<SheetContent
 				side="left"
 				className="flex flex-col gap-4 pt-16 justify-between items-center"
-				aria-describedby="nav-buttons"
 			>
 				<VisuallyHidden>
 					<SheetHeader>
 						<SheetTitle>Menu</SheetTitle>
+						<SheetDescription>
+							Side menu containing navigation and action buttons
+						</SheetDescription>
 					</SheetHeader>
 				</VisuallyHidden>
 
