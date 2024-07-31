@@ -22,7 +22,7 @@ function RootLayout({
 			lang="en"
 			className="dark"
 		>
-			<body className={inter.className + ' p-2'}>
+			<body className={inter.className + ' min-h-[100dvh] p-2'}>
 				{children}
 				<Toaster />
 			</body>
