@@ -11,11 +11,11 @@ export const linkDataTableColumns: ColumnDef<Link>[] = [
 		header: '#',
 	},
 	{
-		accessorKey: 'old',
+		accessorKey: 'original',
 		header: 'Original',
 	},
 	{
-		accessorKey: 'new',
+		accessorKey: 'shortened',
 		header: 'Shortened',
 	},
 	{
@@ -27,17 +27,18 @@ export const linkDataTableColumns: ColumnDef<Link>[] = [
 export const dummyLinks: z.infer<typeof LinkSchema>[] = [
 	{
 		id: '1',
-		old: 'reallyloooooooooooooooooooooooooooooonglonglonglonglonglonglonglonglonglonglonglonglonglonglink.com',
-		new: 'shortest.com/z20ssd',
+		original:
+			'reallyloooooooooooooooooooooooooooooonglonglonglonglonglonglonglonglonglonglonglonglonglonglink.com',
+		shortened: 'shortest.com/z20ssd',
 	},
 	{
 		id: '2',
-		old: 'reallyLongTestLink.com',
-		new: 'shortest.com/yj2dol',
+		original: 'reallyLongTestLink.com',
+		shortened: 'shortest.com/yj2dol',
 	},
 	{
 		id: '3',
-		old: 'reallyLongTestLink.com',
-		new: 'shortest.com/asdk4l',
+		original: 'reallyLongTestLink.com',
+		shortened: 'shortest.com/asdk4l',
 	},
 ];

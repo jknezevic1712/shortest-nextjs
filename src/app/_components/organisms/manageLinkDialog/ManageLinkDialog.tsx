@@ -8,7 +8,6 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
 } from '@app/_components/molecules/dialog/Dialog';
 import {
 	Form,
@@ -62,7 +61,7 @@ export default function ManageLinkDialog({
 					>
 						<FormField
 							control={form.control}
-							name="old"
+							name="original"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Your link</FormLabel>

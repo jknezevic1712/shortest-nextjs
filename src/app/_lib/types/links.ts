@@ -1,5 +1,5 @@
 export type Link = {
 	id: string;
-	old: string;
-	new: string;
+	original: string;
+	shortened: string;
 };

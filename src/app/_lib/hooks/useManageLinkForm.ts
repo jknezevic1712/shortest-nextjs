@@ -11,7 +11,7 @@ type InferredLinkSchema = z.infer<typeof LinkSchema>;
 
 const defaultFormData: Partial<InferredLinkSchema> = {
 	id: uuidv7(),
-	old: '',
+	original: '',
 };
 export default function useManageLinkForm(
 	formData?: Link,
