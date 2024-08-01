@@ -7,31 +7,31 @@ import ILinksRepository from '.';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 export default class LinksRepository implements ILinksRepository {
-	// TODO: To be of SupabaseClient type
-	private _db: SupabaseClient;
+  private _db: SupabaseClient;
 
-	constructor() {
-		this._db = createClient();
-	}
+  constructor() {
+    this._db = createClient();
+  }
 
-	private generateTestLinks() {
-		return dummyLinks.map((link) => LinkDTO.fromDb(link));
-	}
+  private generateTestLinks() {
+    return dummyLinks.map((link) => LinkDTO.fromDb(link));
+  }
 
-	async fetchLinks() {
-		// const linkCollection = this.generateTestLinks();
-		// return linkCollection;
+  public async fetchLinks() {
+    // TODO: If testing environment, use generateTestLinks function instead
+    // TODO: If error happens, throw your own error
+    const { data, error } = await this._db.from('links').select();
 
-		return (await this._db.from('testingTable').select()).data as any;
-	}
+    return data as LinkDTO[];
+  }
 
-	async createLink(link: LinkDTO) {
-		const linkCollection = this.fetchLinks();
-		return linkCollection;
-	}
+  public async createLink(link: LinkDTO) {
+    const linkCollection = this.fetchLinks();
+    return linkCollection;
+  }
 
-	async deleteLink(linkId: string) {
-		const linkCollection = this.fetchLinks();
-		return linkCollection;
-	}
+  public async deleteLink(linkId: string) {
+    const linkCollection = this.fetchLinks();
+    return linkCollection;
+  }
 }
