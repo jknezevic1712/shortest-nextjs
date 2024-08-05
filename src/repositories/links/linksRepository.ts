@@ -5,6 +5,7 @@ import { dummyLinks } from '@/app/_lib/utils/dashboard/dataTable';
 import LinkDTO from '@/dtos/link';
 import ILinksRepository from '.';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import type { Link } from '@/app/_lib/types/links';
 
 // TODO: If testing environment, use generateTestLinks function instead to fetch links and operate on them
 // TODO: If error happens, throw your own error
@@ -26,29 +27,39 @@ export default class LinksRepository implements ILinksRepository {
   }
 
   public async createLink(link: LinkDTO) {
+    console.log('REPO creating link ', link.original);
+
     const { data, error } = await this._db
       .from('links')
-      .insert(link.linkData)
+      .insert({
+        id: link.id,
+        original: link.original,
+        shortened: link.shortened,
+      })
       .select();
 
     return data as LinkDTO[];
   }
 
   public async editLink(link: LinkDTO) {
+    console.log('REPO edit link ', link.id);
+
     const { data, error } = await this._db
       .from('links')
-      .update(link.linkData)
-      .eq('id', link.linkData.id)
+      .update({
+        original: link.original,
+      })
+      .eq('id', link.id)
       .select();
 
     return data as LinkDTO[];
   }
 
-  public async deleteLink(linkId: string) {
+  public async deleteLink(link: LinkDTO) {
     const { data, error } = await this._db
       .from('links')
       .delete()
-      .eq('id', linkId)
+      .eq('id', link.id)
       .select();
 
     return data as LinkDTO[];

@@ -1,35 +1,57 @@
+'use client';
+
 // utils
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { LinkSchema } from '../validationSchemas/link';
-import { v7 as uuidv7 } from 'uuid';
+import {
+  CreateLinkFormSchema,
+  EditLinkFormSchema,
+} from '../validationSchemas/link';
+import { createLink, editLink } from '@/app/dashboard/actions';
 // types
 import type { Link } from '../types/links';
 
-type InferredLinkSchema = z.infer<typeof LinkSchema>;
+type InferredLinkSchema = z.infer<
+  typeof CreateLinkFormSchema | typeof EditLinkFormSchema
+>;
 
-const defaultFormData: Partial<InferredLinkSchema> = {
-	id: uuidv7(),
-	original: '',
+const defaultFormData: z.infer<typeof CreateLinkFormSchema> = {
+  original: '',
 };
 export default function useManageLinkForm(
-	formData?: Link,
-	extraAction?: () => void
+  initialData?: Link,
+  extraAction?: () => void
 ) {
-	const form = useForm<InferredLinkSchema>({
-		resolver: zodResolver(LinkSchema),
-		defaultValues: formData ? formData : defaultFormData,
-	});
+  const form = useForm<InferredLinkSchema>({
+    defaultValues: initialData ? initialData : defaultFormData,
+  });
 
-	function onSubmit(data: InferredLinkSchema) {
-		console.log('Submitted ', data);
+  async function onSubmit(data: InferredLinkSchema) {
+    console.log('Submitted ', data);
+    const formData = new FormData();
+    formData.append('original', data.original);
 
-		extraAction?.();
-	}
+    if (initialData) {
+      console.log('edit on submit');
 
-	return {
-		form,
-		onSubmit,
-	};
+      formData.append('id', (data as z.infer<typeof EditLinkFormSchema>).id);
+
+      await editLink({
+        id: (data as z.infer<typeof EditLinkFormSchema>).id,
+        original: data.original,
+        shortened: (data as z.infer<typeof EditLinkFormSchema>).shortened,
+      });
+    } else {
+      console.log('create on submit');
+
+      await createLink(formData);
+    }
+
+    // extraAction?.();
+  }
+
+  return {
+    form,
+    onSubmit,
+  };
 }

@@ -10,28 +10,28 @@ import { fetchLinks } from './actions';
 import type { DashboardPageProps } from '@app/_lib/hoc/dashboard/withState';
 
 function Dashboard({
-	showDialog,
-	handleManageLinkDialog,
-	linkData,
+  showDialog,
+  handleManageLinkDialog,
+  linkData,
 }: DashboardPageProps) {
-	useEffect(() => {
-		async function getLinks() {
-			const data = await fetchLinks();
-			console.log('DATA ', data);
+  useEffect(() => {
+    async function getLinks() {
+      const data = await fetchLinks();
+      console.log('DATA ', data);
 
-			return await fetchLinks();
-		}
+      return await fetchLinks();
+    }
 
-		getLinks();
-	}, []);
+    getLinks();
+  }, []);
 
-	return (
-		<DashboardTemplate
-			showDialog={showDialog}
-			handleManageLinkDialog={handleManageLinkDialog}
-			linkData={linkData}
-		/>
-	);
+  return (
+    <DashboardTemplate
+      showDialog={showDialog}
+      handleManageLinkDialog={handleManageLinkDialog}
+      linkData={linkData}
+    />
+  );
 }
 
 export default withState(Dashboard);

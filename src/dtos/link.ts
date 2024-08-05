@@ -20,12 +20,16 @@ export default class LinkDTO {
     this._shortened = shortened;
   }
 
-  public get linkData() {
-    return {
-      id: this._id,
-      original: this._original,
-      new: this._shortened,
-    };
+  public get id() {
+    return this._id;
+  }
+
+  public get original() {
+    return this._original;
+  }
+
+  public get shortened() {
+    return this._shortened;
   }
 
   static fromDb(data: Link) {
