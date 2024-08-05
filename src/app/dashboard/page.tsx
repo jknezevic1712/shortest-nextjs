@@ -5,33 +5,36 @@ import { useEffect } from 'react';
 import DashboardTemplate from '@app/_components/templates/dashboard/Dashboard';
 // utils
 import { withState } from '../_lib/hoc/dashboard/withState';
-import { fetchLinks } from './actions';
+import { fetchLinks as fetchLinksAction } from './actions';
 // types
 import type { DashboardPageProps } from '@app/_lib/hoc/dashboard/withState';
 
 function Dashboard({
-  showDialog,
-  handleManageLinkDialog,
-  linkData,
+	showDialog,
+	handleManageLinkDialog,
+	selectedLinkData,
+	links,
+	setLinks,
 }: DashboardPageProps) {
-  useEffect(() => {
-    async function getLinks() {
-      const data = await fetchLinks();
-      console.log('DATA ', data);
+	useEffect(() => {
+		async function fetchLinks() {
+			const [data, errors] = await fetchLinksAction();
+			console.log('DATA ', data);
 
-      return await fetchLinks();
-    }
+			setLinks(data ?? []);
+		}
 
-    getLinks();
-  }, []);
+		fetchLinks();
+	}, [setLinks]);
 
-  return (
-    <DashboardTemplate
-      showDialog={showDialog}
-      handleManageLinkDialog={handleManageLinkDialog}
-      linkData={linkData}
-    />
-  );
+	return (
+		<DashboardTemplate
+			showDialog={showDialog}
+			handleManageLinkDialog={handleManageLinkDialog}
+			selectedLinkData={selectedLinkData}
+			links={links}
+		/>
+	);
 }
 
 export default withState(Dashboard);
