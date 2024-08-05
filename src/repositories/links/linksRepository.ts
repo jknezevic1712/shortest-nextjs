@@ -6,7 +6,7 @@ import LinkDTO from '@/dtos/link';
 import ILinksRepository from '.';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-// TODO: If testing environment, use generateTestLinks function instead to fetch links and operate on them
+// TODO: If testing environment, use TestingLinksRepository
 // TODO: If error happens, throw your own error
 export default class LinksRepository implements ILinksRepository {
 	private _db: SupabaseClient;
