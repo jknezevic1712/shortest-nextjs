@@ -1,5 +1,5 @@
 // utils
-import createClient from '@/_lib/supabase/server';
+import supabaseClient from '@/_lib/supabase/server';
 import { dummyLinks } from '@/app/_lib/utils/dashboard/dataTable';
 // types and interfaces
 import LinkDTO from '@/dtos/link';
@@ -12,7 +12,7 @@ export default class LinksRepository implements ILinksRepository {
 	private _db: SupabaseClient;
 
 	constructor() {
-		this._db = createClient();
+		this._db = supabaseClient;
 	}
 
 	private generateTestLinks() {
