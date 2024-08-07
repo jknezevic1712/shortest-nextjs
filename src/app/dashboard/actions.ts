@@ -8,7 +8,6 @@ import {
 	EditLinkInputSchema,
 } from '../_lib/validationSchemas/link';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 
 export const fetchLinks = baseProcedure
 	.createServerAction()
@@ -25,7 +24,6 @@ export const createLink = baseProcedure
 		await ctx.linksService.createLink(input.original);
 
 		revalidatePath('/dashboard');
-		redirect('/');
 	});
 
 export const editLink = baseProcedure
@@ -38,7 +36,7 @@ export const editLink = baseProcedure
 			shortened: input.shortened,
 		});
 
-		revalidatePath('/dashboard', 'page');
+		revalidatePath('/dashboard');
 	});
 
 export const deleteLink = baseProcedure
@@ -51,5 +49,5 @@ export const deleteLink = baseProcedure
 			shortened: input.shortened,
 		});
 
-		revalidatePath('/dashboard', 'page');
+		revalidatePath('/dashboard');
 	});
