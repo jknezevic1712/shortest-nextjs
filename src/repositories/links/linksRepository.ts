@@ -16,23 +16,19 @@ export default class LinksRepository implements ILinksRepository {
 	}
 
 	private generateTestLinks() {
-		// return dummyLinks.map((link) => LinkDTO.fromDb(link));
 		return dummyLinks;
 	}
 
 	public async fetchLinks() {
 		const { data, error } = await this._db.from('links').select();
 
-		const testLinks = this.generateTestLinks();
+		if (!data) return [];
 
-		const mappedData = data ? data.map((item) => item) : [];
-
-		return [...testLinks, ...mappedData] as LinkDTO[];
+		const mappedData = data.map((item) => item);
+		return mappedData as LinkDTO[];
 	}
 
 	public async createLink(link: LinkDTO) {
-		console.log('REPO creating link ', link.original);
-
 		const { data, error } = await this._db
 			.from('links')
 			.insert({
@@ -46,8 +42,6 @@ export default class LinksRepository implements ILinksRepository {
 	}
 
 	public async editLink(link: LinkDTO) {
-		console.log('REPO edit link ', link.id);
-
 		const { data, error } = await this._db
 			.from('links')
 			.update({

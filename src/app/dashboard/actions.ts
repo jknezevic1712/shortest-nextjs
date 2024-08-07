@@ -1,55 +1,55 @@
+'use server';
+
 import { baseProcedure } from '@/_lib/procedures';
 
 import {
-  CreateLinkInputSchema,
-  CreateLinkOutputSchema,
-  DeleteLinkInputSchema,
-  EditLinkInputSchema,
+	CreateLinkInputSchema,
+	DeleteLinkInputSchema,
+	EditLinkInputSchema,
 } from '../_lib/validationSchemas/link';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 export const fetchLinks = baseProcedure
-  .createServerAction()
-  .handler(async ({ ctx }) => {
-    const links = await ctx.linksService.fetchLinks();
+	.createServerAction()
+	.handler(async ({ ctx }) => {
+		const links = await ctx.linksService.fetchLinks();
 
-    return links;
-  });
+		return links;
+	});
 
 export const createLink = baseProcedure
-  .createServerAction()
-  .input(CreateLinkInputSchema, { type: 'formData' })
-  // .output(CreateLinkOutputSchema)
-  .handler(async ({ input, ctx }) => {
-    console.log('Create link action');
-    await ctx.linksService.createLink(input.original);
+	.createServerAction()
+	.input(CreateLinkInputSchema, { type: 'formData' })
+	.handler(async ({ input, ctx }) => {
+		await ctx.linksService.createLink(input.original);
 
-    revalidatePath('/dashboard', 'page');
-  });
+		revalidatePath('/dashboard');
+		redirect('/');
+	});
 
 export const editLink = baseProcedure
-  .createServerAction()
-  .input(EditLinkInputSchema)
-  .handler(async ({ input, ctx }) => {
-    console.log('Edit link action');
-    await ctx.linksService.editLink({
-      id: input.id,
-      original: input.original,
-      shortened: input.shortened,
-    });
+	.createServerAction()
+	.input(EditLinkInputSchema, { type: 'formData' })
+	.handler(async ({ input, ctx }) => {
+		await ctx.linksService.editLink({
+			id: input.id,
+			original: input.original,
+			shortened: input.shortened,
+		});
 
-    revalidatePath('/dashboard', 'page');
-  });
+		revalidatePath('/dashboard', 'page');
+	});
 
 export const deleteLink = baseProcedure
-  .createServerAction()
-  .input(DeleteLinkInputSchema)
-  .handler(async ({ input, ctx }) => {
-    await ctx.linksService.deleteLink({
-      id: input.id,
-      original: input.original,
-      shortened: input.shortened,
-    });
+	.createServerAction()
+	.input(DeleteLinkInputSchema)
+	.handler(async ({ input, ctx }) => {
+		await ctx.linksService.deleteLink({
+			id: input.id,
+			original: input.original,
+			shortened: input.shortened,
+		});
 
-    revalidatePath('/dashboard', 'page');
-  });
+		revalidatePath('/dashboard', 'page');
+	});

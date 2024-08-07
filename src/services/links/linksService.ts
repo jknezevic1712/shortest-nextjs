@@ -19,14 +19,11 @@ export default class LinksService {
 	}
 
 	async createLink(originalUrl: string) {
-		console.log('??? ', originalUrl);
 		const linkDTO = new LinkDTO({
 			id: uuidv7(),
 			original: originalUrl,
-			shortened: '',
+			shortened: `https://shortened.io/sowlj3`,
 		});
-
-		console.log('Create link service action ', linkDTO);
 
 		const links = await this._linksRepository.createLink(linkDTO);
 
@@ -34,7 +31,6 @@ export default class LinksService {
 	}
 
 	async editLink(link: Link) {
-		console.log('Edit link service action ', link);
 		const linkDTO = new LinkDTO({
 			id: link.id,
 			original: link.original,

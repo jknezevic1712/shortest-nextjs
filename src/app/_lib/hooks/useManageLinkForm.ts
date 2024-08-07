@@ -4,54 +4,50 @@
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import {
-  CreateLinkFormSchema,
-  EditLinkFormSchema,
+	CreateLinkFormSchema,
+	EditLinkFormSchema,
 } from '../validationSchemas/link';
-import { createLink, editLink } from '@/app/dashboard/actions';
+import useServerActions from './useServerActions';
+import { zodResolver } from '@hookform/resolvers/zod';
 // types
 import type { Link } from '../types/links';
 
 type InferredLinkSchema = z.infer<
-  typeof CreateLinkFormSchema | typeof EditLinkFormSchema
+	typeof CreateLinkFormSchema | typeof EditLinkFormSchema
 >;
 
 const defaultFormData: z.infer<typeof CreateLinkFormSchema> = {
-  original: '',
+	original: '',
 };
 export default function useManageLinkForm(
-  initialData?: Link,
-  extraAction?: () => void
+	initialData?: Link,
+	extraAction?: () => void
 ) {
-  const form = useForm<InferredLinkSchema>({
-    defaultValues: initialData ? initialData : defaultFormData,
-  });
+	const { createLinkAction, editLinkAction } = useServerActions();
 
-  async function onSubmit(data: InferredLinkSchema) {
-    console.log('Submitted ', data);
-    const formData = new FormData();
-    formData.append('original', data.original);
+	const form = useForm<InferredLinkSchema>({
+		resolver: zodResolver(
+			initialData ? EditLinkFormSchema : CreateLinkFormSchema
+		),
+		defaultValues: initialData ? initialData : defaultFormData,
+	});
 
-    if (initialData) {
-      console.log('edit on submit');
+	async function onSubmit(data: InferredLinkSchema) {
+		const formData = new FormData();
+		formData.append('original', data.original);
 
-      formData.append('id', (data as z.infer<typeof EditLinkFormSchema>).id);
+		if (initialData) {
+			formData.append('id', (data as z.infer<typeof EditLinkFormSchema>).id);
+			await editLinkAction.execute(formData);
+		} else {
+			await createLinkAction.execute(formData);
+		}
 
-      await editLink({
-        id: (data as z.infer<typeof EditLinkFormSchema>).id,
-        original: data.original,
-        shortened: (data as z.infer<typeof EditLinkFormSchema>).shortened,
-      });
-    } else {
-      console.log('create on submit');
+		extraAction?.();
+	}
 
-      await createLink(formData);
-    }
-
-    // extraAction?.();
-  }
-
-  return {
-    form,
-    onSubmit,
-  };
+	return {
+		form,
+		onSubmit,
+	};
 }
