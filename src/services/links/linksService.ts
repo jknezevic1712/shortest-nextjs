@@ -15,7 +15,7 @@ export default class LinksService {
 	async fetchLinks() {
 		const links = await this._linksRepository.fetchLinks();
 
-		return links;
+		return links.reverse();
 	}
 
 	async createLink(originalUrl: string) {
@@ -27,7 +27,7 @@ export default class LinksService {
 
 		const links = await this._linksRepository.createLink(linkDTO);
 
-		return links;
+		return links.reverse();
 	}
 
 	async editLink(link: Link) {
@@ -39,7 +39,7 @@ export default class LinksService {
 
 		const links = await this._linksRepository.editLink(linkDTO);
 
-		return links;
+		return links.reverse();
 	}
 
 	async deleteLink(link: Link) {
@@ -51,6 +51,6 @@ export default class LinksService {
 
 		const links = await this._linksRepository.deleteLink(linkDTO);
 
-		return links;
+		return links.reverse();
 	}
 }

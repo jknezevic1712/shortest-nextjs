@@ -10,6 +10,11 @@ import type { ReactNode } from 'react';
 const TOAST_LIMIT = 5;
 const TOAST_REMOVE_DELAY = 1000000;
 
+export type ToastError = {
+	title?: string;
+	description?: string;
+};
+
 type ToasterToast = ToastProps & {
 	id: string;
 	title?: ReactNode;

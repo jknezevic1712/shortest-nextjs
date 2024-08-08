@@ -2,6 +2,7 @@
 import { Inter } from 'next/font/google';
 import '@app/_lib/styles/globals.css';
 import { Toaster } from '@/app/_lib/providers/Toaster';
+import StoreProvider from '@app/_lib/providers/StoreProvider';
 // types
 import type { Metadata } from 'next';
 
@@ -23,7 +24,7 @@ function RootLayout({
 			className="dark"
 		>
 			<body className={inter.className + ' min-h-[100dvh] p-2'}>
-				{children}
+				<StoreProvider>{children}</StoreProvider>
 				<Toaster />
 			</body>
 		</html>

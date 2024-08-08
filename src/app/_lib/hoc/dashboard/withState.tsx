@@ -1,28 +1,52 @@
-import { useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+// utils
+import useLinksStore from '../../hooks/useLinks';
+import { useToast } from '../../hooks/useToast';
 // types
 import type { Link } from '@app/_lib/types/links';
-import type { Dispatch, SetStateAction } from 'react';
+import type { ToastError } from '../../hooks/useToast';
 
 export type DashboardPageProps = {
 	showDialog: boolean;
 	handleManageLinkDialog: (isVisible?: boolean, data?: Link) => void;
 	selectedLinkData: Link | undefined;
+	setErrors: (data: ToastError[]) => void;
 	links: Link[];
-	setLinks: Dispatch<SetStateAction<Link[]>>;
+	setLinks: (links: Link[]) => void;
 };
 export function withState(
 	WrappedComponent: React.ComponentType<DashboardPageProps>
 ) {
 	function StatefulComponent(props: any) {
+		const { links, updateLinks } = useLinksStore();
+		const { toast } = useToast();
+
 		const [showDialog, setShowDialog] = useState(false);
-		const [links, setLinks] = useState<Link[]>([]);
 
 		const selectedLinkData = useRef<Link | undefined>(undefined);
+		const errors = useRef<ToastError[] | undefined>(undefined);
 
 		function handleManageLinkDialog(isVisible = false, data?: Link) {
 			selectedLinkData.current = data;
 			setShowDialog(isVisible);
 		}
+
+		const setErrors = useCallback((data: ToastError[]) => {
+			errors.current = data;
+		}, []);
+
+		useEffect(() => {
+			if (errors.current) {
+				errors.current.forEach((error) =>
+					toast({
+						title: error.title,
+						description: error.description,
+					})
+				);
+
+				errors.current = undefined;
+			}
+		}, [errors, toast]);
 
 		return (
 			<WrappedComponent
@@ -30,8 +54,9 @@ export function withState(
 				showDialog={showDialog}
 				handleManageLinkDialog={handleManageLinkDialog}
 				selectedLinkData={selectedLinkData.current}
+				setErrors={setErrors}
 				links={links}
-				setLinks={setLinks}
+				setLinks={updateLinks}
 			/>
 		);
 	}

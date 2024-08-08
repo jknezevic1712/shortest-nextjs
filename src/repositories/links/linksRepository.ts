@@ -22,6 +22,10 @@ export default class LinksRepository implements ILinksRepository {
 	public async fetchLinks() {
 		const { data, error } = await this._db.from('links').select();
 
+		if (error) {
+			throw new Error(error.code + ' ' + error.message);
+		}
+
 		if (!data) return [];
 
 		const mappedData = data.map((item) => item);
@@ -29,38 +33,45 @@ export default class LinksRepository implements ILinksRepository {
 	}
 
 	public async createLink(link: LinkDTO) {
-		const { data, error } = await this._db
-			.from('links')
-			.insert({
-				id: link.id,
-				original: link.original,
-				shortened: link.shortened,
-			})
-			.select();
+		const { error } = await this._db.from('links').insert({
+			id: link.id,
+			original: link.original,
+			shortened: link.shortened,
+		});
 
-		return data as LinkDTO[];
+		if (error) {
+			throw new Error(error.code + ' ' + error.message);
+		}
+
+		const newLinks = await this.fetchLinks();
+		return newLinks;
 	}
 
 	public async editLink(link: LinkDTO) {
-		const { data, error } = await this._db
+		const { error } = await this._db
 			.from('links')
 			.update({
 				original: link.original,
 				shortened: link.shortened,
 			})
-			.eq('id', link.id)
-			.select();
+			.eq('id', link.id);
 
-		return data as LinkDTO[];
+		if (error) {
+			throw new Error(error.code + ' ' + error.message);
+		}
+
+		const newLinks = await this.fetchLinks();
+		return newLinks;
 	}
 
 	public async deleteLink(link: LinkDTO) {
-		const { data, error } = await this._db
-			.from('links')
-			.delete()
-			.eq('id', link.id)
-			.select();
+		const { error } = await this._db.from('links').delete().eq('id', link.id);
 
-		return data as LinkDTO[];
+		if (error) {
+			throw new Error(error.code + ' ' + error.message);
+		}
+
+		const newLinks = await this.fetchLinks();
+		return newLinks;
 	}
 }

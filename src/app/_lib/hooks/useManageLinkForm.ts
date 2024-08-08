@@ -9,6 +9,8 @@ import {
 } from '../validationSchemas/link';
 import useServerActions from './useServerActions';
 import { zodResolver } from '@hookform/resolvers/zod';
+import useLinksStore from './useLinks';
+import { useToast } from './useToast';
 // types
 import type { Link } from '../types/links';
 
@@ -24,6 +26,8 @@ export default function useManageLinkForm(
 	extraAction?: () => void
 ) {
 	const { createLinkAction, editLinkAction } = useServerActions();
+	const { updateLinks } = useLinksStore();
+	const { toast } = useToast();
 
 	const form = useForm<InferredLinkSchema>({
 		resolver: zodResolver(
@@ -38,9 +42,27 @@ export default function useManageLinkForm(
 
 		if (initialData) {
 			formData.append('id', (data as z.infer<typeof EditLinkFormSchema>).id);
-			await editLinkAction.execute(formData);
+			const [links, errors] = await editLinkAction.execute(formData);
+
+			if (!links || errors) {
+				return toast({
+					title: errors.name ?? 'Error while editing link',
+					description: errors.message ?? 'Please try again later.',
+				});
+			}
+
+			updateLinks(links);
 		} else {
-			await createLinkAction.execute(formData);
+			const [links, errors] = await createLinkAction.execute(formData);
+
+			if (!links || errors) {
+				return toast({
+					title: errors.name ?? 'Error while creating link',
+					description: errors.message ?? 'Please try again later.',
+				});
+			}
+
+			updateLinks(links);
 		}
 
 		extraAction?.();

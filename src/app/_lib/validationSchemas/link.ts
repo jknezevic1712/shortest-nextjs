@@ -28,7 +28,7 @@ export const DeleteLinkInputSchema = z.object({
 });
 
 // output schemas
-export const CreateLinkOutputSchema = z.array(
+export const FetchedLinksOutputSchema = z.array(
 	z.object({
 		id: z.string(),
 		original: z.string(),

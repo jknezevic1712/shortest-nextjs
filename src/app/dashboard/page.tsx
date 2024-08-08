@@ -13,19 +13,28 @@ function Dashboard({
 	showDialog,
 	handleManageLinkDialog,
 	selectedLinkData,
+	setErrors,
 	links,
 	setLinks,
 }: DashboardPageProps) {
 	useEffect(() => {
 		async function fetchLinks() {
 			const [data, errors] = await fetchLinksAction();
+			if (!data || errors) {
+				setErrors([
+					{
+						title: errors.name,
+						description: errors.message,
+					},
+				]);
+			}
 			console.log('DATA ', data);
 
 			setLinks(data ?? []);
 		}
 
 		fetchLinks();
-	}, [setLinks]);
+	}, [setLinks, setErrors]);
 
 	return (
 		<DashboardTemplate
