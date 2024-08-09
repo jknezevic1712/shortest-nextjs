@@ -1,13 +1,13 @@
 // utils
 import { databaseClient } from '@database/database';
 import { dummyLinks } from '@/app/_lib/utils/dashboard/dataTable';
+import { LinksError } from '@/shared/errors/linksError';
 // types and interfaces
 import LinkDTO from '@/shared/dtos/link';
 import ILinksRepository from '.';
 import type { DatabaseClient } from '@database/database';
 
 // TODO: If testing environment, use TestingLinksRepository
-// TODO: If error happens, throw your own error
 export default class LinksRepository implements ILinksRepository {
 	private _db: DatabaseClient;
 
@@ -22,29 +22,36 @@ export default class LinksRepository implements ILinksRepository {
 	public async fetchLinks() {
 		const { data, error } = await this._db.from('links').select();
 
-		if (error) {
-			throw new Error(error.code + ' ' + error.message);
-		}
+		const links = data as LinkDTO[];
 
-		if (!data) return [];
-
-		const mappedData = data.map((item) => item);
-		return mappedData as LinkDTO[];
+		return {
+			links,
+			error,
+		};
 	}
 
 	public async createLink(link: LinkDTO) {
-		const { error } = await this._db.from('links').insert({
-			id: link.id,
-			original: link.original,
-			shortened: link.shortened,
-		});
+		const { error } = await this._db
+			.from('links')
+			.insert({
+				id: link.id,
+				original: link.original,
+				shortened: link.shortened!,
+			})
+			.select('*');
 
-		if (error) {
-			throw new Error(error.code + ' ' + error.message);
+		const { links, error: fetchLinksError } = await this.fetchLinks();
+
+		if (fetchLinksError) {
+			throw new LinksError(fetchLinksError.message, {
+				cause: fetchLinksError.details,
+			});
 		}
 
-		const newLinks = await this.fetchLinks();
-		return newLinks;
+		return {
+			links,
+			error,
+		};
 	}
 
 	public async editLink(link: LinkDTO) {
@@ -56,22 +63,38 @@ export default class LinksRepository implements ILinksRepository {
 			})
 			.eq('id', link.id);
 
-		if (error) {
-			throw new Error(error.code + ' ' + error.message);
+		const { links, error: fetchLinksError } = await this.fetchLinks();
+
+		if (fetchLinksError) {
+			throw new LinksError(fetchLinksError.message, {
+				cause: fetchLinksError.details,
+			});
 		}
 
-		const newLinks = await this.fetchLinks();
-		return newLinks;
+		return {
+			links,
+			error,
+		};
 	}
 
 	public async deleteLink(link: LinkDTO) {
-		const { error } = await this._db.from('links').delete().eq('id', link.id);
+		const { error } = await this._db
+			.from('links')
+			.delete()
+			.eq('id', link.id)
+			.select('*');
 
-		if (error) {
-			throw new Error(error.code + ' ' + error.message);
+		const { links, error: fetchLinksError } = await this.fetchLinks();
+
+		if (fetchLinksError) {
+			throw new LinksError(fetchLinksError.message, {
+				cause: fetchLinksError.details,
+			});
 		}
 
-		const newLinks = await this.fetchLinks();
-		return newLinks;
+		return {
+			links,
+			error,
+		};
 	}
 }

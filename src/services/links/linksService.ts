@@ -1,6 +1,7 @@
 // utils
 import LinkDTO from '@/shared/dtos/link';
 import { v7 as uuidv7 } from 'uuid';
+import { LinksError } from '@/shared/errors/linksError';
 // types
 import ILinksRepository from '@/repositories/links';
 import type { Link } from '@/app/_lib/types/links';
@@ -13,7 +14,11 @@ export default class LinksService {
 	}
 
 	async fetchLinks() {
-		const links = await this._linksRepository.fetchLinks();
+		const { links, error } = await this._linksRepository.fetchLinks();
+
+		if (error) {
+			throw new LinksError(error.message, { cause: error.details });
+		}
 
 		return links.reverse();
 	}
@@ -25,7 +30,11 @@ export default class LinksService {
 			shortened: `https://shortened.io/sowlj3`,
 		});
 
-		const links = await this._linksRepository.createLink(linkDTO);
+		const { links, error } = await this._linksRepository.createLink(linkDTO);
+
+		if (error) {
+			throw new LinksError(error.message, { cause: error.details });
+		}
 
 		return links.reverse();
 	}
@@ -37,7 +46,11 @@ export default class LinksService {
 			shortened: link.shortened,
 		});
 
-		const links = await this._linksRepository.editLink(linkDTO);
+		const { links, error } = await this._linksRepository.editLink(linkDTO);
+
+		if (error) {
+			throw new LinksError(error.message, { cause: error.details });
+		}
 
 		return links.reverse();
 	}
@@ -49,7 +62,11 @@ export default class LinksService {
 			shortened: link.shortened,
 		});
 
-		const links = await this._linksRepository.deleteLink(linkDTO);
+		const { links, error } = await this._linksRepository.deleteLink(linkDTO);
+
+		if (error) {
+			throw new LinksError(error.message, { cause: error.details });
+		}
 
 		return links.reverse();
 	}
