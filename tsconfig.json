@@ -21,7 +21,7 @@
 			"@/*": ["./src/*"],
 			"@app/*": ["./src/app/*"],
 			"@services/*": ["./src/services/*"],
-			"@dtos/*": ["./src/dtos/*"],
+			"@dtos/*": ["src/shared/dtos/*"],
 			"@repositories/*": ["./src/repositories/*"],
 			"@utils/*": ["./src/utils/*"],
 			"@database/*": ["./database/*"]

@@ -2,7 +2,7 @@
 import { databaseClient } from '@database/databaseClient';
 import { dummyLinks } from '@/app/_lib/utils/dashboard/dataTable';
 // types and interfaces
-import LinkDTO from '@/dtos/link';
+import LinkDTO from '@/shared/dtos/link';
 import ILinksRepository from '.';
 import type { DatabaseClient } from '@database/databaseClient';
 

@@ -1,5 +1,5 @@
 // utils
-import LinkDTO from '@/dtos/link';
+import LinkDTO from '@/shared/dtos/link';
 import { v7 as uuidv7 } from 'uuid';
 // types
 import ILinksRepository from '@/repositories/links';
