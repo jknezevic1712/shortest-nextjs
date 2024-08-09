@@ -1,10 +1,10 @@
 // utils
-import { databaseClient } from '@database/databaseClient';
+import { databaseClient } from '@database/database';
 import { dummyLinks } from '@/app/_lib/utils/dashboard/dataTable';
 // types and interfaces
 import LinkDTO from '@/shared/dtos/link';
 import ILinksRepository from '.';
-import type { DatabaseClient } from '@database/databaseClient';
+import type { DatabaseClient } from '@database/database';
 
 // TODO: If testing environment, use TestingLinksRepository
 // TODO: If error happens, throw your own error
