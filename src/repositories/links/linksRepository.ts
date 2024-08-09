@@ -1,18 +1,18 @@
 // utils
-import supabaseClient from '@/_lib/supabase/server';
+import { databaseClient } from '@database/databaseClient';
 import { dummyLinks } from '@/app/_lib/utils/dashboard/dataTable';
 // types and interfaces
 import LinkDTO from '@/dtos/link';
 import ILinksRepository from '.';
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { DatabaseClient } from '@database/databaseClient';
 
 // TODO: If testing environment, use TestingLinksRepository
 // TODO: If error happens, throw your own error
 export default class LinksRepository implements ILinksRepository {
-	private _db: SupabaseClient;
+	private _db: DatabaseClient;
 
 	constructor() {
-		this._db = supabaseClient;
+		this._db = databaseClient;
 	}
 
 	private generateTestLinks() {
