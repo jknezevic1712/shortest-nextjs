@@ -18,13 +18,13 @@ export const CreateLinkInputSchema = z.object({
 export const EditLinkInputSchema = z.object({
 	id: z.string().uuid("Link id can't be empty"),
 	original: z.string().url('Please check the url provided'),
-	shortened: z.string().url().optional(),
+	shortened: z.string().url('Shortened url must be provided'),
 });
 
 export const DeleteLinkInputSchema = z.object({
 	id: z.string().uuid("Link id can't be empty"),
 	original: z.string().url('Please check the url provided'),
-	shortened: z.string().url().optional(),
+	shortened: z.string().url('Shortened url must be provided'),
 });
 
 // output schemas

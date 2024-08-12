@@ -21,9 +21,8 @@ import {
 import { VisuallyHidden } from '@app/_components/atoms/visuallyHidden/VisuallyHidden';
 // utils
 import useManageLinkForm from '@/app/_lib/hooks/useManageLinkForm';
-import { z } from 'zod';
 // types
-import type { HandleManagingLinkSchema, Link } from '@/app/_lib/types/links';
+import type { Link } from '@/shared/types/types';
 
 type ManageLinkDialogProps = {
 	showDialog: boolean;

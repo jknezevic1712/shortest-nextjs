@@ -10,7 +10,7 @@ import {
 } from '@/shared/errors/linksError';
 // types
 import ILinksRepository from '@/repositories/links';
-import type { Link } from '@/app/_lib/types/links';
+import type { Link } from '@/shared/types/types';
 
 export default class LinksService {
 	private _linksRepository: ILinksRepository;

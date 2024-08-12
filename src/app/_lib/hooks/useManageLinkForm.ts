@@ -12,7 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import useLinksStore from './useLinks';
 import { useToast } from './useToast';
 // types
-import type { Link } from '../types/links';
+import type { Link } from '@/shared/types/types';
 
 type InferredLinkSchema = z.infer<
 	typeof CreateLinkFormSchema | typeof EditLinkFormSchema

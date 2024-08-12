@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 // utils
 import { linksAtom } from '@app/_lib/store/links';
 // types
-import type { Link } from '../types/links';
+import type { Link } from '@/shared/types/types';
 
 export default function useLinksStore() {
 	const [links, setLinks] = useAtom(linksAtom);

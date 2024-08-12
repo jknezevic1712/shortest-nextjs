@@ -3,8 +3,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import useLinksStore from '../../hooks/useLinks';
 import { useToast } from '../../hooks/useToast';
 // types
-import type { Link } from '@app/_lib/types/links';
 import type { ToastError } from '../../hooks/useToast';
+import type { Link } from '@/shared/types/types';
 
 export type DashboardPageProps = {
 	showDialog: boolean;
