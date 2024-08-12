@@ -1,7 +1,7 @@
 'use server';
 
 // utils
-import { baseProcedure } from '@/shared/procedures/procedures';
+import { baseProcedure } from '@app/_lib/procedures/procedures';
 import {
 	CreateLinkInputSchema,
 	DeleteLinkInputSchema,
