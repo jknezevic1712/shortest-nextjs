@@ -1,7 +1,7 @@
 'use server';
 
 // utils
-import { baseProcedure } from '@app/_lib/procedures/procedures';
+import { baseProcedure } from '@/app/_lib/zsa/zsa-procedures';
 import {
 	CreateLinkInputSchema,
 	DeleteLinkInputSchema,
