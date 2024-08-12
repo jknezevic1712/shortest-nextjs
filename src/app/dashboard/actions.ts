@@ -8,11 +8,6 @@ import {
 	EditLinkInputSchema,
 	FetchedLinksOutputSchema,
 } from '../_lib/validationSchemas/link';
-import {
-	DeleteLinkError,
-	EditLinkError,
-	FetchLinksError,
-} from '@/shared/errors/linksError';
 import { ZSAError } from 'zsa';
 
 export const fetchLinks = baseProcedure
@@ -28,14 +23,7 @@ export const fetchLinks = baseProcedure
 				shortened: link.shortened!,
 			}));
 		} catch (err) {
-			if (err instanceof FetchLinksError) {
-				throw new ZSAError('ERROR', 'Error while fetching links.');
-			}
-
-			throw new ZSAError(
-				'ERROR',
-				'Unknown error ocurred. Please try again later.'
-			);
+			throw new ZSAError('ERROR', err);
 		}
 	});
 
@@ -53,14 +41,7 @@ export const createLink = baseProcedure
 				shortened: link.shortened!,
 			}));
 		} catch (err) {
-			if (err instanceof FetchLinksError) {
-				throw new ZSAError('ERROR', 'Error while creating link.');
-			}
-
-			throw new ZSAError(
-				'ERROR',
-				'Unknown error ocurred. Please try again later.'
-			);
+			throw new ZSAError('ERROR', err);
 		}
 	});
 
@@ -82,14 +63,7 @@ export const editLink = baseProcedure
 				shortened: link.shortened!,
 			}));
 		} catch (err) {
-			if (err instanceof EditLinkError) {
-				throw new ZSAError('ERROR', 'Error while editing link.');
-			}
-
-			throw new ZSAError(
-				'ERROR',
-				'Unknown error ocurred. Please try again later.'
-			);
+			throw new ZSAError('ERROR', err);
 		}
 	});
 
@@ -111,13 +85,6 @@ export const deleteLink = baseProcedure
 				shortened: link.shortened!,
 			}));
 		} catch (err) {
-			if (err instanceof DeleteLinkError) {
-				throw new ZSAError('ERROR', 'Error while deleting link.');
-			}
-
-			throw new ZSAError(
-				'ERROR',
-				'Unknown error ocurred. Please try again later.'
-			);
+			throw new ZSAError('ERROR', err);
 		}
 	});
