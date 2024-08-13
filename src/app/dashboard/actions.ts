@@ -9,13 +9,17 @@ import {
 	FetchedLinksOutputSchema,
 } from '../_lib/validationSchemas/link';
 import { ZSAError } from 'zsa';
+import { ServiceLocator } from '@/services/serviceLocator';
 
 export const fetchLinks = baseProcedure
 	.createServerAction()
 	.output(FetchedLinksOutputSchema)
-	.handler(async ({ ctx }) => {
+	.handler(async () => {
+		console.log('FETCHING LINKS');
+		const linksService = ServiceLocator.getService('LinksService')!;
+
 		try {
-			const links = await ctx.linksService.fetchLinks();
+			const links = await linksService.fetchLinks();
 
 			return links.map((link) => ({
 				id: link.id,
@@ -31,9 +35,12 @@ export const createLink = baseProcedure
 	.createServerAction()
 	.input(CreateLinkInputSchema, { type: 'formData' })
 	.output(FetchedLinksOutputSchema)
-	.handler(async ({ input, ctx }) => {
+	.handler(async ({ input }) => {
+		console.log('CREATING LINK');
+		const linksService = ServiceLocator.getService('LinksService')!;
+
 		try {
-			const links = await ctx.linksService.createLink(input.original);
+			const links = await linksService.createLink(input.original);
 
 			return links.map((link) => ({
 				id: link.id,
@@ -49,9 +56,12 @@ export const editLink = baseProcedure
 	.createServerAction()
 	.input(EditLinkInputSchema, { type: 'formData' })
 	.output(FetchedLinksOutputSchema)
-	.handler(async ({ input, ctx }) => {
+	.handler(async ({ input }) => {
+		console.log('EDITING LINK');
+		const linksService = ServiceLocator.getService('LinksService')!;
+
 		try {
-			const links = await ctx.linksService.editLink({
+			const links = await linksService.editLink({
 				id: input.id,
 				original: input.original,
 				shortened: input.shortened,
@@ -71,9 +81,12 @@ export const deleteLink = baseProcedure
 	.createServerAction()
 	.input(DeleteLinkInputSchema)
 	.output(FetchedLinksOutputSchema)
-	.handler(async ({ input, ctx }) => {
+	.handler(async ({ input }) => {
+		console.log('DELETING LINKS');
+		const linksService = ServiceLocator.getService('LinksService')!;
+
 		try {
-			const links = await ctx.linksService.deleteLink({
+			const links = await linksService.deleteLink({
 				id: input.id,
 				original: input.original,
 				shortened: input.shortened,
