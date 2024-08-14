@@ -3,23 +3,11 @@
 import type { Link } from '@/shared/types/types';
 
 export default class LinkDTO {
-	private _id: string;
-	private _original: string;
-	private _shortened: string | undefined;
-
-	constructor({
-		id,
-		original,
-		shortened,
-	}: {
-		id: string;
-		original: string;
-		shortened?: string;
-	}) {
-		this._id = id;
-		this._original = original;
-		this._shortened = shortened;
-	}
+	constructor(
+		private _id: string,
+		private _original: string,
+		private _shortened: string | undefined
+	) {}
 
 	public get id() {
 		return this._id;
@@ -34,10 +22,6 @@ export default class LinkDTO {
 	}
 
 	static fromDb(data: Link) {
-		return new LinkDTO({
-			id: data.id,
-			original: data.original,
-			shortened: data.shortened,
-		});
+		return new LinkDTO(data.id, data.original, data.shortened);
 	}
 }
