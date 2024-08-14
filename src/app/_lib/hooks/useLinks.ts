@@ -2,14 +2,13 @@ import { useAtom } from 'jotai/react';
 import { useCallback } from 'react';
 // utils
 import { linksAtom } from '@app/_lib/store/links';
-// types
-import type { Link } from '@/shared/types/types';
+import LinkDTO from '@/shared/dtos/link';
 
 export default function useLinksStore() {
 	const [links, setLinks] = useAtom(linksAtom);
 
 	const updateLinks = useCallback(
-		(links: Link[]) => {
+		(links: LinkDTO[]) => {
 			setLinks(links);
 		},
 		[setLinks]

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import LinkDTO from '@/shared/dtos/link';
 
 // form schemas
 export const CreateLinkFormSchema = z.object({
@@ -28,10 +29,4 @@ export const DeleteLinkInputSchema = z.object({
 });
 
 // output schemas
-export const FetchedLinksOutputSchema = z.array(
-	z.object({
-		id: z.string(),
-		original: z.string(),
-		shortened: z.string(),
-	})
-);
+export const FetchedLinksOutputSchema = z.array(z.instanceof(LinkDTO));

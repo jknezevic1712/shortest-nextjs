@@ -2,17 +2,17 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 // utils
 import useLinksStore from '../../hooks/useLinks';
 import { useToast } from '../../hooks/useToast';
+import LinkDTO from '@/shared/dtos/link';
 // types
 import type { ToastError } from '../../hooks/useToast';
-import type { Link } from '@/shared/types/types';
 
 export type DashboardPageProps = {
 	showDialog: boolean;
-	handleManageLinkDialog: (isVisible?: boolean, data?: Link) => void;
-	selectedLinkData: Link | undefined;
+	handleManageLinkDialog: (isVisible?: boolean, data?: LinkDTO) => void;
+	selectedLinkData: LinkDTO | undefined;
 	setErrors: (data: ToastError[]) => void;
-	links: Link[];
-	setLinks: (links: Link[]) => void;
+	links: LinkDTO[];
+	setLinks: (links: LinkDTO[]) => void;
 };
 export function withState(
 	WrappedComponent: React.ComponentType<DashboardPageProps>
@@ -23,10 +23,10 @@ export function withState(
 
 		const [showDialog, setShowDialog] = useState(false);
 
-		const selectedLinkData = useRef<Link | undefined>(undefined);
+		const selectedLinkData = useRef<LinkDTO | undefined>(undefined);
 		const errors = useRef<ToastError[] | undefined>(undefined);
 
-		function handleManageLinkDialog(isVisible = false, data?: Link) {
+		function handleManageLinkDialog(isVisible = false, data?: LinkDTO) {
 			selectedLinkData.current = data;
 			setShowDialog(isVisible);
 		}

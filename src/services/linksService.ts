@@ -38,11 +38,11 @@ export default class LinksService {
 	}
 
 	async createLink(originalUrl: string) {
-		const linkDTO = new LinkDTO({
-			id: uuidv7(),
-			original: originalUrl,
-			shortened: `https://shortened.io/sowlj3`,
-		});
+		const linkDTO = new LinkDTO(
+			uuidv7(),
+			originalUrl,
+			`https://shortened.io/sowlj3`
+		);
 
 		try {
 			const links = await this._linksRepository.createLink(linkDTO);
@@ -62,11 +62,7 @@ export default class LinksService {
 	}
 
 	async editLink(link: Link) {
-		const linkDTO = new LinkDTO({
-			id: link.id,
-			original: link.original,
-			shortened: link.shortened,
-		});
+		const linkDTO = new LinkDTO(link.id, link.original, link.shortened);
 
 		try {
 			const links = await this._linksRepository.editLink(linkDTO);
@@ -86,11 +82,7 @@ export default class LinksService {
 	}
 
 	async deleteLink(link: Link) {
-		const linkDTO = new LinkDTO({
-			id: link.id,
-			original: link.original,
-			shortened: link.shortened,
-		});
+		const linkDTO = new LinkDTO(link.id, link.original, link.shortened);
 
 		try {
 			const links = await this._linksRepository.deleteLink(linkDTO);

@@ -1,5 +1,4 @@
 // types
-
 import type { Link } from '@/shared/types/types';
 
 export default class LinkDTO {

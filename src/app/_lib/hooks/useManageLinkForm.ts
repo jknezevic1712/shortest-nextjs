@@ -11,8 +11,7 @@ import useServerActions from './useServerActions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useLinksStore from './useLinks';
 import { useToast } from './useToast';
-// types
-import type { Link } from '@/shared/types/types';
+import LinkDTO from '@/shared/dtos/link';
 
 type InferredLinkSchema = z.infer<
 	typeof CreateLinkFormSchema | typeof EditLinkFormSchema
@@ -22,7 +21,7 @@ const defaultFormData: z.infer<typeof CreateLinkFormSchema> = {
 	original: '',
 };
 export default function useManageLinkForm(
-	initialData?: Link,
+	initialData?: LinkDTO,
 	extraAction?: () => void
 ) {
 	const { createLinkAction, editLinkAction } = useServerActions();
@@ -42,23 +41,23 @@ export default function useManageLinkForm(
 
 		if (initialData) {
 			formData.append('id', (data as z.infer<typeof EditLinkFormSchema>).id);
-			const [links, errors] = await editLinkAction.execute(formData);
+			const [links, error] = await editLinkAction.execute(formData);
 
-			if (!links || errors) {
+			if (error) {
 				return toast({
-					title: errors.name ?? 'Error while editing link',
-					description: errors.message ?? 'Please try again later.',
+					title: error.name ?? 'Error while editing link',
+					description: error.message ?? 'Please try again later.',
 				});
 			}
 
 			updateLinks(links);
 		} else {
-			const [links, errors] = await createLinkAction.execute(formData);
+			const [links, error] = await createLinkAction.execute(formData);
 
-			if (!links || errors) {
+			if (error) {
 				return toast({
-					title: errors.name ?? 'Error while creating link',
-					description: errors.message ?? 'Please try again later.',
+					title: error.name ?? 'Error while creating link',
+					description: error.message ?? 'Please try again later.',
 				});
 			}
 

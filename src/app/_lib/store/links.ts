@@ -1,5 +1,4 @@
 import { atom } from 'jotai';
-// types
-import type { Link } from '@/shared/types/types';
+import LinkDTO from '@/shared/dtos/link';
 
-export const linksAtom = atom<Link[]>([]);
+export const linksAtom = atom<LinkDTO[]>([]);
