@@ -4,8 +4,8 @@
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import {
-	CreateLinkFormSchema,
-	EditLinkFormSchema,
+	createLinkFormSchema,
+	editLinkFormSchema,
 } from '../validationSchemas/link';
 import useServerActions from './useServerActions';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,10 +14,10 @@ import { useToast } from './useToast';
 import LinkDTO from '@/shared/dtos/link';
 
 type InferredLinkSchema = z.infer<
-	typeof CreateLinkFormSchema | typeof EditLinkFormSchema
+	typeof createLinkFormSchema | typeof editLinkFormSchema
 >;
 
-const defaultFormData: z.infer<typeof CreateLinkFormSchema> = {
+const defaultFormData: z.infer<typeof createLinkFormSchema> = {
 	original: '',
 };
 export default function useManageLinkForm(
@@ -30,18 +30,20 @@ export default function useManageLinkForm(
 
 	const form = useForm<InferredLinkSchema>({
 		resolver: zodResolver(
-			initialData ? EditLinkFormSchema : CreateLinkFormSchema
+			initialData ? editLinkFormSchema : createLinkFormSchema
 		),
 		defaultValues: initialData ? initialData : defaultFormData,
 	});
 
 	async function onSubmit(data: InferredLinkSchema) {
-		const formData = new FormData();
-		formData.append('original', data.original);
-
 		if (initialData) {
-			formData.append('id', (data as z.infer<typeof EditLinkFormSchema>).id);
-			const [links, error] = await editLinkAction.execute(formData);
+			const editData = data as z.infer<typeof editLinkFormSchema>;
+
+			const [links, error] = await editLinkAction.execute({
+				id: editData.id,
+				original: editData.original,
+				shortened: editData.shortened,
+			});
 
 			if (error) {
 				return toast({
@@ -52,7 +54,9 @@ export default function useManageLinkForm(
 
 			updateLinks(links);
 		} else {
-			const [links, error] = await createLinkAction.execute(formData);
+			const [links, error] = await createLinkAction.execute({
+				original: data.original,
+			});
 
 			if (error) {
 				return toast({

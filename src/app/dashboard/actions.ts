@@ -3,17 +3,17 @@
 // utils
 import { baseProcedure } from '@/app/_lib/zsa/zsa-procedures';
 import {
-	CreateLinkInputSchema,
-	DeleteLinkInputSchema,
-	EditLinkInputSchema,
-	FetchedLinksOutputSchema,
+	createLinkInputSchema,
+	deleteLinkInputSchema,
+	editLinkInputSchema,
+	fetchedLinksOutputSchema,
 } from '../_lib/validationSchemas/link';
 import { ZSAError } from 'zsa';
 import { ServiceLocator } from '@/services/serviceLocator';
 
 export const fetchLinks = baseProcedure
 	.createServerAction()
-	.output(FetchedLinksOutputSchema)
+	.output(fetchedLinksOutputSchema)
 	.handler(async () => {
 		console.log('FETCHING LINKS');
 		const linksService = ServiceLocator.getService('LinksService');
@@ -37,8 +37,8 @@ export const fetchLinks = baseProcedure
 
 export const createLink = baseProcedure
 	.createServerAction()
-	.input(CreateLinkInputSchema, { type: 'formData' })
-	.output(FetchedLinksOutputSchema)
+	.input(createLinkInputSchema)
+	.output(fetchedLinksOutputSchema)
 	.handler(async ({ input }) => {
 		console.log('CREATING LINK');
 		const linksService = ServiceLocator.getService('LinksService');
@@ -62,8 +62,8 @@ export const createLink = baseProcedure
 
 export const editLink = baseProcedure
 	.createServerAction()
-	.input(EditLinkInputSchema, { type: 'formData' })
-	.output(FetchedLinksOutputSchema)
+	.input(editLinkInputSchema)
+	.output(fetchedLinksOutputSchema)
 	.handler(async ({ input }) => {
 		console.log('EDITING LINK');
 		const linksService = ServiceLocator.getService('LinksService');
@@ -91,8 +91,8 @@ export const editLink = baseProcedure
 
 export const deleteLink = baseProcedure
 	.createServerAction()
-	.input(DeleteLinkInputSchema)
-	.output(FetchedLinksOutputSchema)
+	.input(deleteLinkInputSchema)
+	.output(fetchedLinksOutputSchema)
 	.handler(async ({ input }) => {
 		console.log('DELETING LINKS');
 		const linksService = ServiceLocator.getService('LinksService');
