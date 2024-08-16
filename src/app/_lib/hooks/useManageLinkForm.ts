@@ -36,14 +36,8 @@ export default function useManageLinkForm(
 	});
 
 	async function onSubmit(data: InferredLinkSchema) {
-		if (initialData) {
-			const editData = data as z.infer<typeof editLinkFormSchema>;
-
-			const [links, error] = await editLinkAction.execute({
-				id: editData.id,
-				original: editData.original,
-				shortened: editData.shortened,
-			});
+		if ('id' in data && 'shortened' in data) {
+			const [links, error] = await editLinkAction.execute(data);
 
 			if (error) {
 				return toast({
@@ -54,9 +48,7 @@ export default function useManageLinkForm(
 
 			updateLinks(links);
 		} else {
-			const [links, error] = await createLinkAction.execute({
-				original: data.original,
-			});
+			const [links, error] = await createLinkAction.execute(data);
 
 			if (error) {
 				return toast({
