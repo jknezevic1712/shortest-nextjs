@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 // utils
 import useLinksStore from '../../hooks/useLinks';
 import { useToast } from '../../hooks/useToast';
-import LinkDTO from '@/shared/dtos/link';
+import LinkDTO from '@/shared/dtos/linkDTO';
 // types
 import type { ToastError } from '../../hooks/useToast';
 

@@ -11,7 +11,7 @@ import useServerActions from './useServerActions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useLinksStore from './useLinks';
 import { useToast } from './useToast';
-import LinkDTO from '@/shared/dtos/link';
+import LinkDTO from '@/shared/dtos/linkDTO';
 
 type InferredLinkSchema = z.infer<
 	typeof createLinkFormSchema | typeof editLinkFormSchema

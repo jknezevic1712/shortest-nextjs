@@ -46,7 +46,7 @@ export const createLink = baseProcedure
 		const linksService = ServiceLocator.getService('LinksService');
 
 		try {
-			const links = await linksService.createLink({ original: input.original });
+			const links = await linksService.createLink(input);
 
 			return links;
 		} catch (err) {
@@ -67,11 +67,7 @@ export const editLink = baseProcedure
 		const linksService = ServiceLocator.getService('LinksService');
 
 		try {
-			const links = await linksService.editLink({
-				id: input.id,
-				original: input.original,
-				shortened: input.shortened,
-			});
+			const links = await linksService.editLink(input);
 
 			return links;
 		} catch (err) {
@@ -92,9 +88,7 @@ export const deleteLink = baseProcedure
 		const linksService = ServiceLocator.getService('LinksService');
 
 		try {
-			const links = await linksService.deleteLink({
-				id: input.id,
-			});
+			const links = await linksService.deleteLink(input);
 
 			return links;
 		} catch (err) {

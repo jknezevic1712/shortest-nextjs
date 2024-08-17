@@ -21,7 +21,7 @@ import {
 import { VisuallyHidden } from '@app/_components/atoms/visuallyHidden/VisuallyHidden';
 // utils
 import useManageLinkForm from '@/app/_lib/hooks/useManageLinkForm';
-import LinkDTO from '@/shared/dtos/link';
+import LinkDTO from '@/shared/dtos/linkDTO';
 
 type ManageLinkDialogProps = {
 	showDialog: boolean;

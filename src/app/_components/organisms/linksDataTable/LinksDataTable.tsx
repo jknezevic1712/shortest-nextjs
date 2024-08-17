@@ -18,7 +18,7 @@ import {
 	getCoreRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
-import LinkDTO from '@/shared/dtos/link';
+import LinkDTO from '@/shared/dtos/linkDTO';
 
 interface LinksDataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];

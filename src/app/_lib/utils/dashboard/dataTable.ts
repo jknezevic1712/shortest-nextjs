@@ -1,4 +1,4 @@
-import LinkDTO from '@/shared/dtos/link';
+import LinkDTO from '@/shared/dtos/linkDTO';
 import { v7 as uuidv7 } from 'uuid';
 // types
 import type { ColumnDef } from '@tanstack/react-table';

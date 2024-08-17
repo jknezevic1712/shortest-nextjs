@@ -5,7 +5,7 @@ export default class LinkDTO {
 	constructor(
 		private _id: string,
 		private _original: string,
-		private _shortened: string | undefined
+		private _shortened: string
 	) {}
 
 	public get id() {
@@ -18,6 +18,14 @@ export default class LinkDTO {
 
 	public get shortened() {
 		return this._shortened;
+	}
+
+	public toPlainObject() {
+		return {
+			id: this.id,
+			original: this.original,
+			shortened: this.shortened,
+		};
 	}
 
 	static fromDb(data: Link) {
