@@ -15,17 +15,17 @@ export default class LinksService {
 	}
 
 	async createLink(link: LinkInsert) {
-		const links = await this._linksRepository.createLink(link);
-		return links.map((link) => link.toPlainObject()).reverse();
+		await this._linksRepository.createLink(link);
+		return await this.fetchLinks();
 	}
 
 	async editLink(link: LinkUpdate) {
-		const links = await this._linksRepository.editLink(link);
-		return links.map((link) => link.toPlainObject()).reverse();
+		await this._linksRepository.editLink(link);
+		return await this.fetchLinks();
 	}
 
 	async deleteLink(link: LinkDelete) {
-		const links = await this._linksRepository.deleteLink(link);
-		return links.map((link) => link.toPlainObject()).reverse();
+		await this._linksRepository.deleteLink(link);
+		return await this.fetchLinks();
 	}
 }

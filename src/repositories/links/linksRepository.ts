@@ -47,8 +47,6 @@ export default class LinksRepository implements ILinksRepository {
 				cause: error.details,
 			});
 		}
-
-		return await this.fetchLinks();
 	}
 
 	public async editLink(link: LinkUpdate) {
@@ -65,8 +63,6 @@ export default class LinksRepository implements ILinksRepository {
 				cause: error.details,
 			});
 		}
-
-		return await this.fetchLinks();
 	}
 
 	public async deleteLink(link: LinkDelete) {
@@ -77,7 +73,5 @@ export default class LinksRepository implements ILinksRepository {
 				cause: error.details,
 			});
 		}
-
-		return await this.fetchLinks();
 	}
 }
