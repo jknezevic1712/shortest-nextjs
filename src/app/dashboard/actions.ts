@@ -10,6 +10,12 @@ import {
 } from '../_lib/validationSchemas/link';
 import { ZSAError } from 'zsa';
 import { ServiceLocator } from '@/services/serviceLocator';
+import {
+	CreateLinkError,
+	DeleteLinkError,
+	EditLinkError,
+	FetchLinksError,
+} from '@/shared/errors/linksError';
 
 export const fetchLinks = baseProcedure
 	.createServerAction()
@@ -17,20 +23,16 @@ export const fetchLinks = baseProcedure
 	.handler(async () => {
 		console.log('FETCHING LINKS');
 		const linksService = ServiceLocator.getService('LinksService');
-		if (!linksService)
-			throw new ZSAError('ERROR', {
-				message: "Links service doesn't exist",
-				status: 'ERROR',
-				options: {
-					cause: "Links service doesn't exist",
-				},
-			});
 
 		try {
 			const links = await linksService.fetchLinks();
 
 			return links;
 		} catch (err) {
+			if (err instanceof FetchLinksError) {
+				throw new ZSAError('ERROR', 'Cannot fetch links.');
+			}
+
 			throw new ZSAError('ERROR', err);
 		}
 	});
@@ -42,20 +44,16 @@ export const createLink = baseProcedure
 	.handler(async ({ input }) => {
 		console.log('CREATING LINK');
 		const linksService = ServiceLocator.getService('LinksService');
-		if (!linksService)
-			throw new ZSAError('ERROR', {
-				message: "Links service doesn't exist",
-				status: 'ERROR',
-				options: {
-					cause: "Links service doesn't exist",
-				},
-			});
 
 		try {
-			const links = await linksService.createLink(input.original);
+			const links = await linksService.createLink({ original: input.original });
 
 			return links;
 		} catch (err) {
+			if (err instanceof CreateLinkError) {
+				throw new ZSAError('ERROR', 'Cannot create link.');
+			}
+
 			throw new ZSAError('ERROR', err);
 		}
 	});
@@ -67,14 +65,6 @@ export const editLink = baseProcedure
 	.handler(async ({ input }) => {
 		console.log('EDITING LINK');
 		const linksService = ServiceLocator.getService('LinksService');
-		if (!linksService)
-			throw new ZSAError('ERROR', {
-				message: "Links service doesn't exist",
-				status: 'ERROR',
-				options: {
-					cause: "Links service doesn't exist",
-				},
-			});
 
 		try {
 			const links = await linksService.editLink({
@@ -85,6 +75,10 @@ export const editLink = baseProcedure
 
 			return links;
 		} catch (err) {
+			if (err instanceof EditLinkError) {
+				throw new ZSAError('ERROR', 'Cannot edit link.');
+			}
+
 			throw new ZSAError('ERROR', err);
 		}
 	});
@@ -96,24 +90,18 @@ export const deleteLink = baseProcedure
 	.handler(async ({ input }) => {
 		console.log('DELETING LINKS');
 		const linksService = ServiceLocator.getService('LinksService');
-		if (!linksService)
-			throw new ZSAError('ERROR', {
-				message: "Links service doesn't exist",
-				status: 'ERROR',
-				options: {
-					cause: "Links service doesn't exist",
-				},
-			});
 
 		try {
 			const links = await linksService.deleteLink({
 				id: input.id,
-				original: input.original,
-				shortened: input.shortened,
 			});
 
 			return links;
 		} catch (err) {
+			if (err instanceof DeleteLinkError) {
+				throw new ZSAError('ERROR', 'Cannot delete link.');
+			}
+
 			throw new ZSAError('ERROR', err);
 		}
 	});

@@ -1,16 +1,6 @@
-// utils
-import LinkDTO from '@/shared/dtos/link';
-import { v7 as uuidv7 } from 'uuid';
-import {
-	CreateLinkError,
-	DeleteLinkError,
-	EditLinkError,
-	FetchLinksError,
-	UnknownLinksError,
-} from '@/shared/errors/linksError';
 // types
-import ILinksRepository from '@/repositories/links';
-import type { Link } from '@/shared/types/types';
+import type ILinksRepository from '@/repositories/links';
+import type { LinkDelete, LinkInsert, LinkUpdate } from '@/repositories/types';
 
 export default class LinksService {
 	private _linksRepository: ILinksRepository;
@@ -20,84 +10,22 @@ export default class LinksService {
 	}
 
 	async fetchLinks() {
-		try {
-			const links = await this._linksRepository.fetchLinks();
-			return links.reverse();
-		} catch (error) {
-			if (error instanceof FetchLinksError) {
-				throw new FetchLinksError(error.message, error.status, {
-					cause: error.cause,
-				});
-			}
-
-			throw new UnknownLinksError(
-				'Unknown error ocurred, please try again later.',
-				'ERROR'
-			);
-		}
+		const links = await this._linksRepository.fetchLinks();
+		return links.reverse();
 	}
 
-	async createLink(originalUrl: string) {
-		const linkDTO = new LinkDTO(
-			uuidv7(),
-			originalUrl,
-			`https://shortened.io/sowlj3`
-		);
-
-		try {
-			const links = await this._linksRepository.createLink(linkDTO);
-			return links.reverse();
-		} catch (error) {
-			if (error instanceof CreateLinkError) {
-				throw new CreateLinkError(error.message, error.status, {
-					cause: error.cause,
-				});
-			}
-
-			throw new UnknownLinksError(
-				'Unknown error ocurred, please try again later.',
-				'ERROR'
-			);
-		}
+	async createLink(link: LinkInsert) {
+		const links = await this._linksRepository.createLink(link);
+		return links.reverse();
 	}
 
-	async editLink(link: Link) {
-		const linkDTO = new LinkDTO(link.id, link.original, link.shortened);
-
-		try {
-			const links = await this._linksRepository.editLink(linkDTO);
-			return links.reverse();
-		} catch (error) {
-			if (error instanceof EditLinkError) {
-				throw new EditLinkError(error.message, error.status, {
-					cause: error.cause,
-				});
-			}
-
-			throw new UnknownLinksError(
-				'Unknown error ocurred, please try again later.',
-				'ERROR'
-			);
-		}
+	async editLink(link: LinkUpdate) {
+		const links = await this._linksRepository.editLink(link);
+		return links.reverse();
 	}
 
-	async deleteLink(link: Link) {
-		const linkDTO = new LinkDTO(link.id, link.original, link.shortened);
-
-		try {
-			const links = await this._linksRepository.deleteLink(linkDTO);
-			return links.reverse();
-		} catch (error) {
-			if (error instanceof DeleteLinkError) {
-				throw new DeleteLinkError(error.message, error.status, {
-					cause: error.cause,
-				});
-			}
-
-			throw new UnknownLinksError(
-				'Unknown error ocurred, please try again later.',
-				'ERROR'
-			);
-		}
+	async deleteLink(link: LinkDelete) {
+		const links = await this._linksRepository.deleteLink(link);
+		return links.reverse();
 	}
 }

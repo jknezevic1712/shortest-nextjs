@@ -1,63 +1,70 @@
 import LinksRepository from '../repositories/links/linksRepository';
 import LinksService from './linksService';
 
-export type AvailableServices = {
+export type ServiceMap = {
 	LinksService: LinksService;
 };
 
-export type AvailableRepositories = {
+export type RepositoryMap = {
 	LinksRepository: LinksRepository;
 };
 
 export class ServiceLocator {
-	private static _serviceCache: Record<string, any>;
-	private static _repositoryCache: Record<string, any>;
+	private static _serviceCache: Partial<Record<string, any>> = {};
+	private static _repositoryCache: Partial<Record<string, any>> = {};
 
-	static {
-		console.log('Assigning caches');
-		ServiceLocator._serviceCache = {};
-		ServiceLocator._repositoryCache = {};
-	}
+	private static _serviceFactory: {
+		[T in keyof ServiceMap]: () => ServiceMap[T];
+	} = {
+		LinksService: () => {
+			const linksRepository =
+				ServiceLocator.getOrCreateRepository('LinksRepository');
 
-	static getService<K extends keyof AvailableServices>(
-		name: K
-	): AvailableServices[K] | undefined {
-		const service = this._serviceCache[name];
+			return new LinksService(linksRepository);
+		},
+	};
 
-		if (!!service) {
-			console.log(`${name} service is cached! Returning the cached version.`);
-			return service as AvailableServices[K];
-		}
+	private static _repositoryFactory: {
+		[K in keyof RepositoryMap]: () => RepositoryMap[K];
+	} = {
+		LinksRepository: () => new LinksRepository(),
+	};
 
-		console.log(`Creating and caching ${name} service...`);
-		if (name === LinksService.name) {
-			const linksRepository = this.getRepository('LinksRepository')!;
-			const linksService = new LinksService(linksRepository);
+	private static getOrCreateRepository<T extends keyof RepositoryMap>(
+		name: T
+	): RepositoryMap[T] {
+		let repository = this._repositoryCache[name];
 
-			this._serviceCache[name] = linksService;
-			return linksService;
-		}
-	}
-
-	private static getRepository<K extends keyof AvailableRepositories>(
-		name: K
-	): AvailableRepositories[K] | undefined {
-		const repository = this._repositoryCache[name];
-
-		if (!!repository) {
+		if (repository) {
 			console.log(
 				`${name} repository is cached! Returning the cached version.`
 			);
-			return repository as AvailableRepositories[K];
+			return repository;
 		}
 
-		console.log(`Creating and caching ${name} repository...`);
-		if (name === LinksRepository.name) {
-			// ? Note: the place to instantiate different repositories if needed
-			const linksRepository = new LinksRepository();
+		console.log(`Creating ${name} repository...`);
+		repository = this._repositoryFactory[name]();
 
-			this._repositoryCache[name] = linksRepository;
-			return linksRepository;
+		console.log(`Caching ${name} repository...`);
+		this._repositoryCache[name] = repository;
+
+		return repository;
+	}
+
+	static getService<T extends keyof ServiceMap>(name: T): ServiceMap[T] {
+		const service = this._serviceCache[name];
+
+		if (service) {
+			console.log(`${name} service is cached! Returning the cached version.`);
+			return service;
 		}
+
+		console.log(`Creating ${name} service...`);
+		const createdService = this._serviceFactory[name]();
+
+		console.log(`Caching ${name} service...`);
+		this._serviceCache[name] = createdService;
+
+		return createdService;
 	}
 }

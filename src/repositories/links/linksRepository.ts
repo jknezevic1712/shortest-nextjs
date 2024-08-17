@@ -1,18 +1,18 @@
 // utils
 import { databaseClient } from '@database/database';
-import { dummyLinks } from '@/app/_lib/utils/dashboard/dataTable';
 import {
 	FetchLinksError,
 	CreateLinkError,
 	EditLinkError,
 	DeleteLinkError,
 } from '@/shared/errors/linksError';
-// types and interfaces
 import LinkDTO from '@/shared/dtos/link';
-import ILinksRepository from '.';
+import { v7 as uuidv7 } from 'uuid';
+// types
+import type ILinksRepository from '.';
 import type { DatabaseClient } from '@database/database';
+import type { LinkDelete, LinkInsert, LinkUpdate } from '../types';
 
-// TODO: If testing environment, use TestingLinksRepository
 export default class LinksRepository implements ILinksRepository {
 	private _db: DatabaseClient;
 
@@ -20,41 +20,38 @@ export default class LinksRepository implements ILinksRepository {
 		this._db = databaseClient;
 	}
 
-	private generateTestLinks() {
-		return dummyLinks;
-	}
-
 	public async fetchLinks() {
 		const { data, error } = await this._db.from('links').select();
 
 		if (error) {
-			throw new FetchLinksError(error.message, error.code, {
+			throw new FetchLinksError(error.message, {
 				cause: error.details,
 			});
 		}
 
-		const links = data as LinkDTO[];
-		return links;
+		return data.map((item) => LinkDTO.fromDb(item));
 	}
 
-	public async createLink(link: LinkDTO) {
-		const { error } = await this._db.from('links').insert({
-			id: link.id,
+	public async createLink(link: LinkInsert) {
+		// TODO generate actual shortened link
+		const newLink = {
+			id: uuidv7(),
 			original: link.original,
-			shortened: link.shortened!,
-		});
+			shortened: `https://shortened.io/sowlj3`,
+		};
+
+		const { error } = await this._db.from('links').insert(newLink);
 
 		if (error) {
-			throw new CreateLinkError(error.message, error.code, {
+			throw new CreateLinkError(error.message, {
 				cause: error.details,
 			});
 		}
 
-		const links = await this.fetchLinks();
-		return links;
+		return await this.fetchLinks();
 	}
 
-	public async editLink(link: LinkDTO) {
+	public async editLink(link: LinkUpdate) {
 		const { error } = await this._db
 			.from('links')
 			.update({
@@ -64,25 +61,23 @@ export default class LinksRepository implements ILinksRepository {
 			.eq('id', link.id);
 
 		if (error) {
-			throw new EditLinkError(error.message, error.code, {
+			throw new EditLinkError(error.message, {
 				cause: error.details,
 			});
 		}
 
-		const links = await this.fetchLinks();
-		return links;
+		return await this.fetchLinks();
 	}
 
-	public async deleteLink(link: LinkDTO) {
+	public async deleteLink(link: LinkDelete) {
 		const { error } = await this._db.from('links').delete().eq('id', link.id);
 
 		if (error) {
-			throw new DeleteLinkError(error.message, error.code, {
+			throw new DeleteLinkError(error.message, {
 				cause: error.details,
 			});
 		}
 
-		const links = await this.fetchLinks();
-		return links;
+		return await this.fetchLinks();
 	}
 }
