@@ -1,5 +1,6 @@
-import LinksRepository from '../repositories/links/linksRepository';
-import LinksService from './linksService';
+import { LinksRepository } from '../repositories/links/linksRepository';
+
+import { LinksService } from './linksService';
 
 export type ServiceMap = {
 	LinksService: LinksService;

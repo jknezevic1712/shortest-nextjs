@@ -1,8 +1,8 @@
 // types
-import type ILinksRepository from '@/repositories/links';
+import type { ILinksRepository } from '@/repositories/links';
 import type { LinkDelete, LinkInsert, LinkUpdate } from '@/shared/types/types';
 
-export default class LinksService {
+export class LinksService {
 	private _linksRepository: ILinksRepository;
 
 	constructor(linksRepository: ILinksRepository) {

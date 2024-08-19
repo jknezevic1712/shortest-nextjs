@@ -9,11 +9,11 @@ import {
 import LinkDTO from '@/shared/dtos/linkDTO';
 import { v7 as uuidv7 } from 'uuid';
 // types
-import type ILinksRepository from '.';
+import type { ILinksRepository } from '.';
 import type { DatabaseClient } from '@database/database';
 import type { LinkInsert, LinkUpdate, LinkDelete } from '@/shared/types/types';
 
-export default class LinksRepository implements ILinksRepository {
+export class LinksRepository implements ILinksRepository {
 	private _db: DatabaseClient;
 
 	constructor() {
