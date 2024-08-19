@@ -7,7 +7,7 @@ import {
 	DeleteLinkError,
 } from '@/shared/errors/linksError';
 import LinkDTO from '@/shared/dtos/linkDTO';
-import { v7 as uuidv7 } from 'uuid';
+import { nanoid } from 'nanoid';
 // types
 import type { ILinksRepository } from '.';
 import type { DatabaseClient } from '@database/database';
@@ -35,7 +35,7 @@ export class LinksRepository implements ILinksRepository {
 	public async createLink(link: LinkInsert) {
 		// TODO generate actual shortened link
 		const newLink = {
-			id: uuidv7(),
+			id: nanoid(8),
 			original: link.original,
 			shortened: `https://shortened.io/sowlj3`,
 		};
