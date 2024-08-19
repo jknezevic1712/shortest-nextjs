@@ -21,12 +21,13 @@ import {
 import { VisuallyHidden } from '@app/_components/atoms/visuallyHidden/VisuallyHidden';
 // utils
 import useManageLinkForm from '@/app/_lib/hooks/useManageLinkForm';
-import LinkDTO from '@/shared/dtos/linkDTO';
+// types
+import type { Link } from '@/shared/types/types';
 
 type ManageLinkDialogProps = {
 	showDialog: boolean;
-	handleManageLinkDialog: (isVisible?: boolean, data?: LinkDTO) => void;
-	selectedLinkData?: LinkDTO;
+	handleManageLinkDialog: (isVisible?: boolean, data?: Link) => void;
+	selectedLinkData?: Link;
 };
 export default function ManageLinkDialog({
 	showDialog,

@@ -1,9 +1,9 @@
-import LinkDTO from '@/shared/dtos/linkDTO';
 import { v7 as uuidv7 } from 'uuid';
 // types
 import type { ColumnDef } from '@tanstack/react-table';
+import type { Link } from '@/shared/types/types';
 
-export const linkDataTableColumns: ColumnDef<LinkDTO>[] = [
+export const linkDataTableColumns: ColumnDef<Link>[] = [
 	{
 		accessorKey: 'id',
 		header: '#',
@@ -22,20 +22,20 @@ export const linkDataTableColumns: ColumnDef<LinkDTO>[] = [
 	},
 ];
 
-export const dummyLinks: LinkDTO[] = [
-	LinkDTO.fromDb({
+export const dummyLinks: Link[] = [
+	{
 		id: uuidv7(),
 		original: 'https://www.extremelylonglink.com',
 		shortened: 'shortest.com/z20ssd',
-	}),
-	LinkDTO.fromDb({
+	},
+	{
 		id: uuidv7(),
 		original: 'https://www.anotherreallylongtestlink.com',
 		shortened: 'shortest.com/yj2dol',
-	}),
-	LinkDTO.fromDb({
+	},
+	{
 		id: uuidv7(),
 		original: 'https://www.testinglink.com',
 		shortened: 'shortest.com/asdk4l',
-	}),
+	},
 ];

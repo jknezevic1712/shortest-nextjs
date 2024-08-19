@@ -11,7 +11,8 @@ import useServerActions from './useServerActions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useLinksStore from './useLinks';
 import { useToast } from './useToast';
-import LinkDTO from '@/shared/dtos/linkDTO';
+// types
+import type { Link } from '@/shared/types/types';
 
 type InferredLinkSchema = z.infer<
 	typeof createLinkFormSchema | typeof editLinkFormSchema
@@ -21,7 +22,7 @@ const defaultFormData: z.infer<typeof createLinkFormSchema> = {
 	original: '',
 };
 export default function useManageLinkForm(
-	initialData?: LinkDTO,
+	initialData?: Link,
 	extraAction?: () => void
 ) {
 	const { createLinkAction, editLinkAction } = useServerActions();

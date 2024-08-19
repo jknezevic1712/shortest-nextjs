@@ -18,12 +18,13 @@ import {
 	getCoreRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
-import LinkDTO from '@/shared/dtos/linkDTO';
+// types
+import type { Link } from '@/shared/types/types';
 
 interface LinksDataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
-	handleManageLinkDialog: (isVisible?: boolean, data?: LinkDTO) => void;
+	handleManageLinkDialog: (isVisible?: boolean, data?: Link) => void;
 }
 
 export function LinksDataTable<TData, TValue>({
@@ -78,7 +79,7 @@ export function LinksDataTable<TData, TValue>({
 										type="button"
 										variant="ghost"
 										onClick={() =>
-											handleManageLinkDialog(true, data[rowIdx] as LinkDTO)
+											handleManageLinkDialog(true, data[rowIdx] as Link)
 										}
 									>
 										<Pen className="text-primary" />
