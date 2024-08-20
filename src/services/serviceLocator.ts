@@ -1,9 +1,11 @@
 import { LinksRepository } from '../repositories/links/linksRepository';
 
 import { LinksService } from './linksService';
+import { AuthService } from './authService';
 
 export type ServiceMap = {
 	LinksService: LinksService;
+	AuthService: AuthService;
 };
 
 export type RepositoryMap = {
@@ -22,6 +24,9 @@ export class ServiceLocator {
 				ServiceLocator.getOrCreateRepository('LinksRepository');
 
 			return new LinksService(linksRepository);
+		},
+		AuthService: () => {
+			return new AuthService();
 		},
 	};
 
