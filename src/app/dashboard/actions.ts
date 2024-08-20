@@ -8,7 +8,11 @@ import {
 	editLinkInputSchema,
 	fetchedLinksOutputSchema,
 } from '../_lib/validationSchemas/link';
-import { ZSAError } from 'zsa';
+import {
+	getUserOutputSchema,
+	signInUserInputSchema,
+} from '../_lib/validationSchemas/auth';
+import { createServerAction, ZSAError } from 'zsa';
 import { ServiceLocator } from '@/services/serviceLocator';
 import {
 	CreateLinkError,
@@ -16,6 +20,14 @@ import {
 	EditLinkError,
 	FetchLinksError,
 } from '@/shared/errors/linksError';
+import {
+	GetUserError,
+	LoginError,
+	LogoutError,
+} from '@/shared/errors/authError';
+import { z } from 'zod';
+// types
+import type { Provider } from '@supabase/supabase-js';
 
 export const fetchLinks = baseProcedure
 	.createServerAction()
@@ -94,6 +106,60 @@ export const deleteLink = baseProcedure
 		} catch (err) {
 			if (err instanceof DeleteLinkError) {
 				throw new ZSAError('ERROR', 'Cannot delete link.');
+			}
+
+			throw new ZSAError('ERROR', err);
+		}
+	});
+
+export const loginUserWithProvider = createServerAction()
+	.input(signInUserInputSchema)
+	.handler(async ({ input }) => {
+		console.log('LOGGING IN VIA PROVIDER');
+
+		const authService = ServiceLocator.getService('AuthService');
+
+		try {
+			await authService.loginUserWithProvider(input.provider as Provider);
+		} catch (err) {
+			if (err instanceof LoginError) {
+				throw new ZSAError('ERROR', err.message);
+			}
+
+			throw new ZSAError('ERROR', err);
+		}
+	});
+
+export const logoutUser = createServerAction().handler(async () => {
+	console.log('LOGGING USER OUT');
+
+	const authService = ServiceLocator.getService('AuthService');
+
+	try {
+		await authService.logoutUser();
+	} catch (err) {
+		if (err instanceof LogoutError) {
+			throw new ZSAError('ERROR', err.message);
+		}
+
+		throw new ZSAError('ERROR', err);
+	}
+});
+
+export const getUser = createServerAction()
+	.output(getUserOutputSchema)
+	.handler(async () => {
+		console.log('FETCHING USER DATA');
+
+		const authService = ServiceLocator.getService('AuthService');
+
+		try {
+			const user = await authService.getUser();
+
+			return user as z.infer<typeof getUserOutputSchema>;
+		} catch (err) {
+			if (err instanceof GetUserError) {
+				throw new ZSAError('ERROR', err.message);
 			}
 
 			throw new ZSAError('ERROR', err);
