@@ -14,16 +14,22 @@ export type Database = {
 					id: string;
 					original: string;
 					shortened: string;
+					created_at: string;
+					updated_at: string;
 				};
 				Insert: {
 					id: string;
 					original: string;
 					shortened: string;
+					created_at: string;
+					updated_at: string;
 				};
 				Update: {
 					id?: string;
 					original?: string;
 					shortened?: string;
+					created_at?: string;
+					updated_at?: string;
 				};
 				Relationships: [];
 			};
