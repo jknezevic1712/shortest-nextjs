@@ -5,7 +5,9 @@ export default class LinkDTO {
 	constructor(
 		private _id: string,
 		private _original: string,
-		private _shortened: string
+		private _shortened: string,
+		private _created_at: string,
+		private _updated_at: string
 	) {}
 
 	public get id() {
@@ -20,15 +22,31 @@ export default class LinkDTO {
 		return this._shortened;
 	}
 
+	public get created_at() {
+		return this._created_at;
+	}
+
+	public get updated_at() {
+		return this._updated_at;
+	}
+
 	public toPlainObject() {
 		return {
 			id: this.id,
 			original: this.original,
 			shortened: this.shortened,
+			created_at: this.created_at,
+			updated_at: this.updated_at,
 		};
 	}
 
 	static fromDb(data: Link) {
-		return new LinkDTO(data.id, data.original, data.shortened);
+		return new LinkDTO(
+			data.id,
+			data.original,
+			data.shortened,
+			data.created_at,
+			data.updated_at
+		);
 	}
 }
