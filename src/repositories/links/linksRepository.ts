@@ -11,7 +11,12 @@ import { nanoid } from 'nanoid';
 // types
 import type { ILinksRepository } from '.';
 import type { DatabaseClient } from '@database/database';
-import type { LinkInsert, LinkUpdate, LinkDelete } from '@/shared/types/types';
+import type {
+	LinkInsert,
+	LinkUpdate,
+	LinkDelete,
+	Link,
+} from '@/shared/types/types';
 
 export class LinksRepository implements ILinksRepository {
 	private _db: DatabaseClient;
@@ -34,10 +39,12 @@ export class LinksRepository implements ILinksRepository {
 
 	public async createLink(link: LinkInsert) {
 		// TODO generate actual shortened link
-		const newLink = {
+		const newLink: Link = {
 			id: nanoid(8),
 			original: link.original,
 			shortened: `https://shortened.io/sowlj3`,
+			created_at: new Date().toUTCString(),
+			updated_at: new Date().toUTCString(),
 		};
 
 		const { error } = await this._db.from('links').insert(newLink);
@@ -55,6 +62,7 @@ export class LinksRepository implements ILinksRepository {
 			.update({
 				original: link.original,
 				shortened: link.shortened,
+				updated_at: new Date().toUTCString(),
 			})
 			.eq('id', link.id);
 
