@@ -17,6 +17,14 @@ export const linkDataTableColumns: ColumnDef<Link>[] = [
 		header: 'Shortened',
 	},
 	{
+		accessorKey: 'created_at',
+		header: 'Created At',
+	},
+	{
+		accessorKey: 'updated_at',
+		header: 'Updated At',
+	},
+	{
 		accessorKey: 'actions',
 		header: '',
 	},
@@ -27,15 +35,21 @@ export const dummyLinks: Link[] = [
 		id: nanoid(8),
 		original: 'https://www.extremelylonglink.com',
 		shortened: 'shortest.com/z20ssd',
+		created_at: '',
+		updated_at: '',
 	},
 	{
 		id: nanoid(8),
 		original: 'https://www.anotherreallylongtestlink.com',
 		shortened: 'shortest.com/yj2dol',
+		created_at: '',
+		updated_at: '',
 	},
 	{
 		id: nanoid(8),
 		original: 'https://www.testinglink.com',
 		shortened: 'shortest.com/asdk4l',
+		created_at: '',
+		updated_at: '',
 	},
 ];
