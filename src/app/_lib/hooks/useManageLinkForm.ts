@@ -37,7 +37,7 @@ export default function useManageLinkForm(
 	});
 
 	async function onSubmit(data: InferredLinkSchema) {
-		if ('id' in data && 'shortened' in data) {
+		if ('id' in data && 'shortened' in data && 'updated_at' in data) {
 			const [links, error] = await editLinkAction.execute(data);
 
 			if (error) {
