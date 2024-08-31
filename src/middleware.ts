@@ -5,7 +5,7 @@ import type { NextRequest } from 'next/server';
 import { Routes } from './app/_lib/enums/routes';
 
 export function middleware(request: NextRequest) {
-	const user = true;
+	const user = false;
 
 	if (!user) {
 		return NextResponse.redirect(new URL(Routes.Authentication, request.url));
