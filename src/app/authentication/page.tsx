@@ -1,7 +1,19 @@
+'use client';
+
+// components
+import AuthenticationTemplate from '../_components/templates/authentication/Authentication';
+import useServerActions from '../_lib/hooks/useServerActions';
+
 export default function Authentication() {
+	const { signInWithProvider } = useServerActions();
+
 	return (
-		<main className="flex min-h-screen flex-col items-center justify-between p-24">
-			Authentication
-		</main>
+		<AuthenticationTemplate
+			authTest={() =>
+				signInWithProvider.execute({
+					provider: 'github',
+				})
+			}
+		/>
 	);
 }
